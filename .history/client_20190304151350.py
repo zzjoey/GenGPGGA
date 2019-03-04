@@ -16,7 +16,6 @@ import tkinter as tk
 import tkinter.font as tkFont
 
 
-
 '''
 格式：$GPGGA,<1>,<2>,<3>,<4>,<5>,<6>,<7>,<8>,<9>,M,<10>,M,<11>,<12>*hh<CR><LF>
 举例：$GPGGA,115542.000,3155.3446,N,11852.4283,E,1,03,4.4,32.6,M,5.4,M,,0000*5A
@@ -167,7 +166,6 @@ def get_localTime():
 
 def send_gpggsMessage():
     # 发送GPS信号并存入SQLite3
-
     while True:
         db_conn = sqlite3.connect('gpsDB.db')
         db_c = db_conn.cursor()
@@ -197,44 +195,29 @@ def send_gpggsMessage():
 def GUI():
     window = tk.Tk()
     window.title("GPS Fake Simulator")
-    window.geometry('800x400')
+    window.geometry('800x600')
 
     v1_lati_N = tk.StringVar()
     v2_lati_S = tk.StringVar()
-    v3_longi_W = tk.StringVar()
+    v3_longi_S = tk.StringVar()
     v4_longi_E = tk.StringVar()
-    v5_alti_P = tk.StringVar()
-    v6_alti_N = tk.StringVar()
+    v5_lati_N = tk.StringVar()
+    v6_lati_N = tk.StringVar()
 
     label1 = tk.Label(window, text="GPS模拟发生器（假的！）",
                       font=tkFont.Font(size=20, weight=tkFont.BOLD))
-    # label1.place(x=200, y=50)
     label1.pack()
 
     # 纬度范围输入
-    tk.Label(window, text="纬度 °N").place(x=250, y=100)
-    tk.Entry(window, textvariable=v1_lati_N).place(x=350, y=100)
-    tk.Label(window, text="纬度 °S").place(x=250, y=150)
-    tk.Entry(window, textvariable=v2_lati_S).place(x=350, y=150)
+    tk.Label(window, text="纬度 °N").place(x=100, y=100)
+    tk.Entry(window, textvariable=v1_lati_N).place(x=200, y=100)
+    tk.Entry(window, textvariable=v1_lati_N).place(x=100, y=250)
+    tk.Label(window, text="纬度 °S").place(x=200, y=250)
 
     # 经度范围输入
-    tk.Label(window, text="经度 °W").place(x=50, y=200)
-    tk.Entry(window, textvariable=v3_longi_W).place(x=150, y=200)
-    tk.Label(window, text="180°W / 0°").place(x=350, y=200)
-    tk.Entry(window, textvariable=v4_longi_E).place(x=470, y=200)
-    tk.Label(window, text="经度 °E").place(x=670, y=200)
-
-    # 高度范围输入
-    tk.Label(window, text="海拔高度 -/m").place(x=50, y=250)
-    tk.Entry(window, textvariable=v5_alti_P).place(x=200, y=250)
-    tk.Label(window, text=" 0 m").place(x=400, y=250)
-    tk.Entry(window, textvariable=v6_alti_N).place(x=450, y=250)
-    tk.Label(window, text="海拔高度 +/m").place(x=650, y=250)
-
-    # 开始按钮
-
-    tk.Button(text='发射', width=40, height=2,
-              command=send_gpggsMessage).place(x=200, y=300)
+    # tk.Label(window, text="经度范围 °N").place(x=100, y=100)
+    # tk.Entry(window, textvariable=v1_lati_N).place(x=200, y=100)
+    # tk.Entry(window, textvariable=v1_lati_N).place(x=400, y=100)
 
     window.mainloop()
 

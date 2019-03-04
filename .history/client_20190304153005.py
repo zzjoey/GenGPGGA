@@ -16,7 +16,6 @@ import tkinter as tk
 import tkinter.font as tkFont
 
 
-
 '''
 格式：$GPGGA,<1>,<2>,<3>,<4>,<5>,<6>,<7>,<8>,<9>,M,<10>,M,<11>,<12>*hh<CR><LF>
 举例：$GPGGA,115542.000,3155.3446,N,11852.4283,E,1,03,4.4,32.6,M,5.4,M,,0000*5A
@@ -167,7 +166,6 @@ def get_localTime():
 
 def send_gpggsMessage():
     # 发送GPS信号并存入SQLite3
-
     while True:
         db_conn = sqlite3.connect('gpsDB.db')
         db_c = db_conn.cursor()
@@ -197,7 +195,7 @@ def send_gpggsMessage():
 def GUI():
     window = tk.Tk()
     window.title("GPS Fake Simulator")
-    window.geometry('800x400')
+    window.geometry('800x600')
 
     v1_lati_N = tk.StringVar()
     v2_lati_S = tk.StringVar()
@@ -218,7 +216,7 @@ def GUI():
     tk.Entry(window, textvariable=v2_lati_S).place(x=350, y=150)
 
     # 经度范围输入
-    tk.Label(window, text="经度 °W").place(x=50, y=200)
+    tk.Label(window, text="经度 °W").place(x=120, y=200)
     tk.Entry(window, textvariable=v3_longi_W).place(x=150, y=200)
     tk.Label(window, text="180°W / 0°").place(x=350, y=200)
     tk.Entry(window, textvariable=v4_longi_E).place(x=470, y=200)
@@ -230,11 +228,6 @@ def GUI():
     tk.Label(window, text=" 0 m").place(x=400, y=250)
     tk.Entry(window, textvariable=v6_alti_N).place(x=450, y=250)
     tk.Label(window, text="海拔高度 +/m").place(x=650, y=250)
-
-    # 开始按钮
-
-    tk.Button(text='发射', width=40, height=2,
-              command=send_gpggsMessage).place(x=200, y=300)
 
     window.mainloop()
 
