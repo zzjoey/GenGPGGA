@@ -162,7 +162,7 @@ def send_gpggsMessage():
     client.connect(('127.0.0.1', 8008))
     send_message = gpggs_message.encode(encoding='utf-8')
     client.sendall(send_message)
-    print(send_message)
+    print()
     data = client.recv(512)
     print(data)
 

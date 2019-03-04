@@ -12,10 +12,10 @@ import socketserver
 class MyServer(socketserver.BaseRequestHandler):
 
     def handle(self):
-        conn = self.request
+        conn = self.request()
         rec_data = conn.recv(1024)
         print(rec_data)
-        # conn.sendall('received')
+        conn.sendall()
 
 
 s1 = socketserver.ThreadingTCPServer(("127.0.0.1", 8008), MyServer)
