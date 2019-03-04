@@ -10,7 +10,7 @@
 import time
 import datetime
 import random
-
+import socket
 
 '''
 格式：$GPGGA,<1>,<2>,<3>,<4>,<5>,<6>,<7>,<8>,<9>,M,<10>,M,<11>,<12>*hh<CR><LF>
@@ -155,6 +155,13 @@ def get_gpggsMessage():
 
     return gpggs_message
 
+
+def send_gpggsMessage():
+    gpggs_message=get_gpggsMessage()
+    client = socket.socket()
+    client.connect('127.0.0.1', 9999)
+    client.sendall(gpggs_message)
+    data=client.recv(512)
 
 if __name__ == '__main__':
     print(get_gpggsMessage)
