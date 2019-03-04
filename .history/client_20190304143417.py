@@ -162,7 +162,7 @@ def get_localTime():
 
 
 def send_gpggsMessage():
-    # 发送GPS信号并存入SQLite3
+
     while True:
         db_conn = sqlite3.connect('gpsDB.db')
         db_c = db_conn.cursor()
@@ -186,7 +186,9 @@ def send_gpggsMessage():
         db_conn.commit()
         print("Insert into SQLite3 Success")
         db_conn.close()
+
         time.sleep(0.5)
+
 
 
 if __name__ == '__main__':
