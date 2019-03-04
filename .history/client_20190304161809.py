@@ -69,11 +69,11 @@ def get_latiHemi():
     return lati_hemi
 
 
-def get_longi(input_longi):
+def get_longi():
     # 获取经度，ddmm.mmmm（度分）格式
     # 0-180
     # 分0-60.0-9999
-    longi = str(random.randrange(0, input_longi)).zfill(3)
+    longi = str(random.randrange(0, 180)).zfill(3)
     longi_min = str(random.randrange(0, 60)).zfill(2)
     longi_millimin = str(random.randrange(0, 9999)).zfill(4)
     full_longi = longi + longi_min + '.' + longi_millimin
@@ -238,7 +238,7 @@ def GUI():
 
     def check_input():
         # 检查并填充参数
-        # 检查纬度范围，边界检测，情况判断，充分随机
+        # 检查纬度范围
         v1_latiN_input = int(v1_lati_N.get())
         v2_latiS_input = int(v2_lati_S.get())
 
@@ -250,7 +250,7 @@ def GUI():
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
             else:
                 final_lati = get_lati(v1_latiN_input)
-                final_latiHemi = 'N'
+                final_latiHemi='N'
         elif((v1_lati_N.get() == '') & (v2_lati_S.get() != '')):
             if v2_latiS_input not in range(0, 90):
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
@@ -259,58 +259,13 @@ def GUI():
                 final_latiHemi = 'S'
 
         else:
-            if v1_latiN_input not in range(0, 90):
+            if v1_latiS_input not in range(0, 90):
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
-            elif v2_latiS_input not in range(0, 90):
+            if v2_latiS_input not in range(0, 90):
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
             else:
-                temp_lati1 = random.randrange(0, v1_latiN_input)
-                temp_latiHemi1 = 'N'
-                temp_lati2 = random.randrange(0, v2_latiS_input)
-                temp_latiHemi2 = 'S'
-                temp_latis = [temp_lati1, temp_lati2]
-                final_lati = random.choice(temp_latis)
-                if (final_lati == temp_lati1):
-                    final_latiHemi = 'N'
-                else:
-                    final_latiHemi = 'S'
-
-        # 检查经度范围，边界检测，情况判断，充分随机
-        v3_longiW_input = int(v3_longi_W.get())
-        v4_longiE_input = int(v4_longi_E.get())
-
-        if ((v3_longi_W.get() == '') & (v4_longi_E.get() == '')):
-            final_longi = get_longi(180)
-            final_longiHemi = get_longiHemi()
-        elif ((v3_longi_W.get() != '') & (v4_longi_E.get() == '')):
-            if v3_longiW_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            else:
-                final_longi = get_longi(v3_longiW_input)
-                final_longiHemi = 'N'
-        elif((v3_longi_W.get() == '') & (v4_longi_E.get() != '')):
-            if v4_longiE_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            else:
-                final_longi = get_longi(v4_longiE_input)
-                final_longiHemi = 'S'
-
-        else:
-            if v3_longiW_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            elif v4_longiE_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            else:
-                temp_lati1 = random.randrange(0, v3_longiW_input)
-                temp_latiHemi1 = 'N'
-                temp_lati2 = random.randrange(0, v4_longiE_input)
-                temp_latiHemi2 = 'S'
-                temp_latis = [temp_lati1, temp_lati2]
-                final_longi = random.choice(temp_latis)
-                if (final_longi == temp_lati1):
-                    final_longiHemi = 'N'
-                else:
-                    final_longiHemi = 'S'
+                final_lati = get_lati(v2_latiS_input)
+                final_latiHemi='S'
 
     # v1_lati_N.get()
     # print(v1_lati_N.get())

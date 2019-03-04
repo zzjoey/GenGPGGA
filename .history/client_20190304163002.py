@@ -284,22 +284,22 @@ def GUI():
             final_longiHemi = get_longiHemi()
         elif ((v3_longi_W.get() != '') & (v4_longi_E.get() == '')):
             if v3_longiW_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
+                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 180")
             else:
                 final_longi = get_longi(v3_longiW_input)
                 final_longiHemi = 'N'
         elif((v3_longi_W.get() == '') & (v4_longi_E.get() != '')):
             if v4_longiE_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
+                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 180")
             else:
                 final_longi = get_longi(v4_longiE_input)
                 final_longiHemi = 'S'
 
         else:
             if v3_longiW_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
+                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 180")
             elif v4_longiE_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
+                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 180")
             else:
                 temp_lati1 = random.randrange(0, v3_longiW_input)
                 temp_latiHemi1 = 'N'

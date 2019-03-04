@@ -12,11 +12,9 @@ import datetime
 import random
 import socket
 import sqlite3
-import threading
-
 import tkinter as tk
 import tkinter.font as tkFont
-import tkinter.messagebox as tkBox
+import threading
 
 
 '''
@@ -37,6 +35,54 @@ import tkinter.messagebox as tkBox
 '''
 
 
+
+def GUI():
+    window = tk.Tk()
+    window.title("GPS Fake Simulator")
+    window.geometry('800x400')
+
+    v1_lati_N = tk.StringVar()
+    v2_lati_S = tk.StringVar()
+    v3_longi_W = tk.StringVar()
+    v4_longi_E = tk.StringVar()
+    v5_alti_P = tk.StringVar()
+    v6_alti_N = tk.StringVar()
+
+    label1 = tk.Label(window, text="GPS模拟发生器（假的！）",
+                      font=tkFont.Font(size=20, weight=tkFont.BOLD))
+    label1.pack()
+
+    # 纬度范围输入
+    tk.Label(window, text="纬度 °N").place(x=250, y=100)
+    tk.Entry(window, textvariable=v1_lati_N).place(x=350, y=100)
+    tk.Label(window, text="纬度 °S").place(x=250, y=150)
+    tk.Entry(window, textvariable=v2_lati_S).place(x=350, y=150)
+
+    # 经度范围输入
+    tk.Label(window, text="经度 °W").place(x=50, y=200)
+    tk.Entry(window, textvariable=v3_longi_W).place(x=150, y=200)
+    tk.Label(window, text="180°W / 0°").place(x=350, y=200)
+    tk.Entry(window, textvariable=v4_longi_E).place(x=470, y=200)
+    tk.Label(window, text="经度 °E").place(x=670, y=200)
+
+    # 高度范围输入
+    tk.Label(window, text="海拔高度 -/m").place(x=50, y=250)
+    tk.Entry(window, textvariable=v5_alti_P).place(x=200, y=250)
+    tk.Label(window, text=" 0 m").place(x=400, y=250)
+    tk.Entry(window, textvariable=v6_alti_N).place(x=450, y=250)
+    tk.Label(window, text="海拔高度 +/m").place(x=650, y=250)
+
+    # 开始按钮
+
+    # v1_lati_N.get()
+    # print(v1_lati_N.get())
+    tk.Button(text='发射', width=40, height=2,
+              command=send_gpggsMessage).place(x=200, y=300)
+
+    window.mainloop()
+
+
+
 def get_UTC():
     # 获取当前UTC时间，hhmmss.sss格式
     now_gm_time = time.strftime("%H%M%S", time.gmtime())
@@ -47,17 +93,15 @@ def get_UTC():
     return full_time
 
 
-def get_lati(input_lati):
+def get_lati():
     # 获取纬度，ddmm.mmmm（度分）格式
     # 0-90
     # 分0-60.0-9999
-
-    lati = str(random.randrange(0, input_lati)).zfill(2)
-
+    lati_input_N=v1_lati_N.get()
+    lati = str(random.randrange(0, 90)).zfill(2)
     lati_min = str(random.randrange(0, 60)).zfill(2)
     lati_millimin = str(random.randrange(0, 9999)).zfill(4)
     full_lati = lati + lati_min + '.' + lati_millimin
-
     return full_lati
 
 
@@ -69,11 +113,11 @@ def get_latiHemi():
     return lati_hemi
 
 
-def get_longi(input_longi):
+def get_longi():
     # 获取经度，ddmm.mmmm（度分）格式
     # 0-180
     # 分0-60.0-9999
-    longi = str(random.randrange(0, input_longi)).zfill(3)
+    longi = str(random.randrange(0, 180)).zfill(3)
     longi_min = str(random.randrange(0, 60)).zfill(2)
     longi_millimin = str(random.randrange(0, 9999)).zfill(4)
     full_longi = longi + longi_min + '.' + longi_millimin
@@ -198,128 +242,6 @@ def send_gpggsMessage():
 def get_threadSend():
     thread2_Send = threading.Thread(target=send_gpggsMessage())
     thread2_Send.start()
-
-
-def GUI():
-    window = tk.Tk()
-    window.title("GPS Fake Simulator")
-    window.geometry('800x400')
-
-    v1_lati_N = tk.StringVar()
-    v2_lati_S = tk.StringVar()
-    v3_longi_W = tk.StringVar()
-    v4_longi_E = tk.StringVar()
-    v5_alti_P = tk.StringVar()
-    v6_alti_N = tk.StringVar()
-
-    label1 = tk.Label(window, text="GPS模拟发生器（假的！）",
-                      font=tkFont.Font(size=20, weight=tkFont.BOLD))
-    label1.pack()
-
-    # 纬度范围输入
-    tk.Label(window, text="纬度 °N").place(x=250, y=100)
-    tk.Entry(window, textvariable=v1_lati_N).place(x=350, y=100)
-    tk.Label(window, text="纬度 °S").place(x=250, y=150)
-    tk.Entry(window, textvariable=v2_lati_S).place(x=350, y=150)
-
-    # 经度范围输入
-    tk.Label(window, text="经度 °W").place(x=50, y=200)
-    tk.Entry(window, textvariable=v3_longi_W).place(x=150, y=200)
-    tk.Label(window, text="180°W / 0°").place(x=350, y=200)
-    tk.Entry(window, textvariable=v4_longi_E).place(x=470, y=200)
-    tk.Label(window, text="经度 °E").place(x=670, y=200)
-
-    # 高度范围输入
-    tk.Label(window, text="海拔高度 -/m").place(x=50, y=250)
-    tk.Entry(window, textvariable=v5_alti_P).place(x=200, y=250)
-    tk.Label(window, text=" 0 m").place(x=400, y=250)
-    tk.Entry(window, textvariable=v6_alti_N).place(x=450, y=250)
-    tk.Label(window, text="海拔高度 +/m").place(x=650, y=250)
-
-    def check_input():
-        # 检查并填充参数
-        # 检查纬度范围，边界检测，情况判断，充分随机
-        v1_latiN_input = int(v1_lati_N.get())
-        v2_latiS_input = int(v2_lati_S.get())
-
-        if ((v1_lati_N.get() == '') & (v2_lati_S.get() == '')):
-            final_lati = get_lati(90)
-            final_latiHemi = get_latiHemi()
-        elif ((v1_lati_N.get() != '') & (v2_lati_S.get() == '')):
-            if v1_latiN_input not in range(0, 90):
-                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
-            else:
-                final_lati = get_lati(v1_latiN_input)
-                final_latiHemi = 'N'
-        elif((v1_lati_N.get() == '') & (v2_lati_S.get() != '')):
-            if v2_latiS_input not in range(0, 90):
-                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
-            else:
-                final_lati = get_lati(v2_latiS_input)
-                final_latiHemi = 'S'
-
-        else:
-            if v1_latiN_input not in range(0, 90):
-                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
-            elif v2_latiS_input not in range(0, 90):
-                tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
-            else:
-                temp_lati1 = random.randrange(0, v1_latiN_input)
-                temp_latiHemi1 = 'N'
-                temp_lati2 = random.randrange(0, v2_latiS_input)
-                temp_latiHemi2 = 'S'
-                temp_latis = [temp_lati1, temp_lati2]
-                final_lati = random.choice(temp_latis)
-                if (final_lati == temp_lati1):
-                    final_latiHemi = 'N'
-                else:
-                    final_latiHemi = 'S'
-
-        # 检查经度范围，边界检测，情况判断，充分随机
-        v3_longiW_input = int(v3_longi_W.get())
-        v4_longiE_input = int(v4_longi_E.get())
-
-        if ((v3_longi_W.get() == '') & (v4_longi_E.get() == '')):
-            final_longi = get_longi(180)
-            final_longiHemi = get_longiHemi()
-        elif ((v3_longi_W.get() != '') & (v4_longi_E.get() == '')):
-            if v3_longiW_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            else:
-                final_longi = get_longi(v3_longiW_input)
-                final_longiHemi = 'N'
-        elif((v3_longi_W.get() == '') & (v4_longi_E.get() != '')):
-            if v4_longiE_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            else:
-                final_longi = get_longi(v4_longiE_input)
-                final_longiHemi = 'S'
-
-        else:
-            if v3_longiW_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            elif v4_longiE_input not in range(0, 180):
-                tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
-            else:
-                temp_lati1 = random.randrange(0, v3_longiW_input)
-                temp_latiHemi1 = 'N'
-                temp_lati2 = random.randrange(0, v4_longiE_input)
-                temp_latiHemi2 = 'S'
-                temp_latis = [temp_lati1, temp_lati2]
-                final_longi = random.choice(temp_latis)
-                if (final_longi == temp_lati1):
-                    final_longiHemi = 'N'
-                else:
-                    final_longiHemi = 'S'
-
-    # v1_lati_N.get()
-    # print(v1_lati_N.get())
-    # 开始按钮
-    tk.Button(text='发射', width=40, height=2,
-              command=check_input).place(x=200, y=300)
-
-    window.mainloop()
-
 
 if __name__ == '__main__':
     thread1_GUI = threading.Thread(target=GUI())
