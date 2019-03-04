@@ -157,16 +157,18 @@ def get_gpggsMessage():
 
 
 def send_gpggsMessage():
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(('127.0.0.1', 8008))
     while True:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(('127.0.0.1', 8008))
+
         gpggs_message = get_gpggsMessage()
         send_message = gpggs_message.encode(encoding='utf-8')
         client.send(send_message)
         print(send_message)
         data = client.recv(512)
         print(data)
-        client.close()
+        # client.close()
+
         time.sleep(0.5)
 
 

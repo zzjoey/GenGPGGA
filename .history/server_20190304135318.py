@@ -15,7 +15,7 @@ class MyServer(socketserver.BaseRequestHandler):
         conn = self.request
         rec_data = conn.recv(1024)
         print(rec_data)
-        # conn.send('received'.encode(encoding='utf-8'))
+        conn.send('received'.encode(encoding='utf-8'))
 
 
 if __name__ == '__main__':

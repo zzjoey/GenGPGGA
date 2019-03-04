@@ -15,10 +15,10 @@ class MyServer(socketserver.BaseRequestHandler):
         conn = self.request
         rec_data = conn.recv(1024)
         print(rec_data)
-        # conn.send('received'.encode(encoding='utf-8'))
+        conn.send('received')
 
 
-if __name__ == '__main__':
+if __name__=='__main__':
     s1 = socketserver.ThreadingTCPServer(("127.0.0.1", 8008), MyServer)
     print("Server Listening...")
     s1.serve_forever()

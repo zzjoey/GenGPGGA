@@ -157,6 +157,7 @@ def get_gpggsMessage():
 
 
 def send_gpggsMessage():
+
     while True:
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect(('127.0.0.1', 8008))
