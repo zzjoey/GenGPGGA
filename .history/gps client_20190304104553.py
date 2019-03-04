@@ -157,4 +157,4 @@ def get_gpggsMessage():
 
 
 if __name__ == '__main__':
-    print(get_gpggsMessage)
+    
