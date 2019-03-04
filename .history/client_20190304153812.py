@@ -129,6 +129,10 @@ def get_diffStationID(diff):
         return stationID
 
 
+# def get_checkSum():
+#     check_sum = str(hex(random.randrange(0, 255))[2:])
+
+
 def get_gpggsMessage():
     # 拼接GPGGA信息
     # 校验和随机生成
@@ -163,7 +167,8 @@ def get_localTime():
 
 def send_gpggsMessage():
     # 发送GPS信号并存入SQLite3
-
+    thread2_Send=threading.Thread(target=GUI())
+    thread2_Send.start()
     while True:
         db_conn = sqlite3.connect('gpsDB.db')
         db_c = db_conn.cursor()
@@ -188,11 +193,6 @@ def send_gpggsMessage():
         print("Insert into SQLite3 Success")
         db_conn.close()
         time.sleep(0.5)
-
-
-def get_threadSend():
-    thread2_Send = threading.Thread(target=send_gpggsMessage())
-    thread2_Send.start()
 
 
 def GUI():
@@ -241,7 +241,7 @@ def GUI():
 
 
 if __name__ == '__main__':
-    thread1_GUI = threading.Thread(target=GUI())
+    thread1_GUI=threading.Thread(target=GUI())
     thread1_GUI.start()
     # GUI()
     # send_gpggsMessage()

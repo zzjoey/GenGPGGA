@@ -129,6 +129,10 @@ def get_diffStationID(diff):
         return stationID
 
 
+# def get_checkSum():
+#     check_sum = str(hex(random.randrange(0, 255))[2:])
+
+
 def get_gpggsMessage():
     # 拼接GPGGA信息
     # 校验和随机生成

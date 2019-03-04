@@ -129,6 +129,10 @@ def get_diffStationID(diff):
         return stationID
 
 
+# def get_checkSum():
+#     check_sum = str(hex(random.randrange(0, 255))[2:])
+
+
 def get_gpggsMessage():
     # 拼接GPGGA信息
     # 校验和随机生成
@@ -190,11 +194,6 @@ def send_gpggsMessage():
         time.sleep(0.5)
 
 
-def get_threadSend():
-    thread2_Send = threading.Thread(target=send_gpggsMessage())
-    thread2_Send.start()
-
-
 def GUI():
     window = tk.Tk()
     window.title("GPS Fake Simulator")
@@ -241,7 +240,7 @@ def GUI():
 
 
 if __name__ == '__main__':
-    thread1_GUI = threading.Thread(target=GUI())
+    thread1_GUI=threading.Thread(target=GUI())
     thread1_GUI.start()
     # GUI()
     # send_gpggsMessage()

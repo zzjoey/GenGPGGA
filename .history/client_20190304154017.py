@@ -128,7 +128,6 @@ def get_diffStationID(diff):
         stationID = str(random.randrange(0, 1023)).zfill(4)
         return stationID
 
-
 def get_gpggsMessage():
     # 拼接GPGGA信息
     # 校验和随机生成
