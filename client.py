@@ -383,29 +383,29 @@ def GUI():
                 time.sleep(0.5)
             except ConnectionRefusedError:
                 tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
+            except RuntimeError:
+                exit(0)
 
     def start():
         # length = len(threading.enumerate())  #枚举返回个列表
         thread2_send = threading.Thread(target=check)
         thread2_send.start()
-        
-        # print(length)
+
     
 
-    def pause():
-        thread2_send = threading.Thread(target=check)
-        thread2_send.start()
+    def stop():
+        window.destroy()
+        exit(0)
         
-        print(length)
-    
-    # def check_thread():
+        
+
 
     # 开始按钮
     tk.Button(text='发射', width=20, height=2,
               command=start).place(x=200, y=300)
 
-    tk.Button(text='暂停', width=20, height=2,
-              command=pause).place(x=400, y=300)
+    tk.Button(text='停止', width=20, height=2,
+              command=stop).place(x=400, y=300)
     window.mainloop()
 
 
