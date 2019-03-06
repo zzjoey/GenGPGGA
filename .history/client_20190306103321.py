@@ -337,7 +337,7 @@ def GUI():
         if ((v5_alti_P.get() == '') & (v6_alti_N.get() == '')):
             # v3_longiW_input_int = -9999
             # v4_longiE_input_int = 99999
-            final_alti = get_alti(-9999, 99999)
+            final_alti = get_alti(-9999,99999)
 
         elif ((v5_alti_P.get() != '') & (v6_alti_N.get() == '')):
             if int(v5_alti_P.get()) not in range(-10000, 1):
@@ -368,44 +368,27 @@ def GUI():
             else:
                 final_alti = get_alti(v5_alti_P_int, v6_alti_N_int)
 
-        return final_lati, final_latiHemi, final_longi, final_longiHemi, final_alti
+        return final_lati,final_latiHemi,final_longi,final_longiHemi,final_alti
         # get_gpggsMessage2(lati, lati_hemi, longi, longi_hemi, alti):
         # final_gpggsMessage= get_gpggsMessage2(lati=final_lati,lati_hemi=final_latiHemi,longi=final_longi,longi_hemi=final_longiHemi,alti=final_alti)
-
-        # print(get_gpggsMessage2(lati=final_lati,lati_hemi=final_latiHemi,longi=final_longi,longi_hemi=final_longiHemi,alti=final_alti))
-
-    def check():
+    
+    
+    def start():
+        
         while True:
             try:
                 final_lati, final_latiHemi, final_longi, final_longiHemi, final_alti = check_input()
-                send_gpggsMessage2(get_gpggsMessage2(lati=final_lati, lati_hemi=final_latiHemi,
-                                                     longi=final_longi, longi_hemi=final_longiHemi, alti=final_alti))
+                send_gpggsMessage2(get_gpggsMessage2(lati=final_lati,lati_hemi=final_latiHemi,longi=final_longi,longi_hemi=final_longiHemi,alti=final_alti))
                 time.sleep(0.5)
-            except ConnectionRefusedError:
-                tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
+        except ConnectionRefusedError:
+            tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端") 
+            
+            # print(get_gpggsMessage2(lati=final_lati,lati_hemi=final_latiHemi,longi=final_longi,longi_hemi=final_longiHemi,alti=final_alti))
 
-    def start():
-        # length = len(threading.enumerate())  #枚举返回个列表
-        thread2_send = threading.Thread(target=check)
-        thread2_send.start()
-        
-        # print(length)
-    
-
-    def pause():
-        thread2_send = threading.Thread(target=check)
-        thread2_send.start()
-        
-        print(length)
-    
-    # def check_thread():
-
+               
     # 开始按钮
-    tk.Button(text='发射', width=20, height=2,
-              command=start).place(x=200, y=300)
-
-    tk.Button(text='暂停', width=20, height=2,
-              command=pause).place(x=400, y=300)
+    tk.Button(text='发射', width=40, height=2,
+              command=start()).place(x=200, y=300)
     window.mainloop()
 
 
@@ -492,32 +475,33 @@ def send_gpggsMessage():
         db_conn.close()
         time.sleep(0.5)
 
-
 def send_gpggsMessage2(in_gpggs_message):
     # 发送GPS信号并存入SQLite3
-    db_conn = sqlite3.connect('gpsDB.db')
-    db_c = db_conn.cursor()
-    # print("Open SQLite3 success")
+    while True:
+        db_conn = sqlite3.connect('gpsDB.db')
+        db_c = db_conn.cursor()
+        # print("Open SQLite3 success")
 
-    local_time = get_localTime()
-    gpggs_message = in_gpggs_message
+        local_time = get_localTime()
+        gpggs_message = in_gpggs_message
 
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('127.0.0.1', 8008))
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect(('127.0.0.1', 8008))
 
-    send_message = gpggs_message.encode(encoding='utf-8')
-    client.send(send_message)
-    # print(send_message)
-    rec_data = client.recv(512)
-    # print(data)
-    client.close()
+        send_message = gpggs_message.encode(encoding='utf-8')
+        client.send(send_message)
+        # print(send_message)
+        rec_data = client.recv(512)
+        # print(data)
+        client.close()
 
-    db_c.execute(
-        "INSERT INTO GPS (ID,GPS,time) VALUES (NULL,'%s','%s')" % (gpggs_message, local_time))
-    db_conn.commit()
-    # print("Insert into SQLite3 Success")
-    db_conn.close()
-    # time.sleep(0.5)
+        db_c.execute(
+            "INSERT INTO GPS (ID,GPS,time) VALUES (NULL,'%s','%s')" % (gpggs_message, local_time))
+        db_conn.commit()
+        # print("Insert into SQLite3 Success")
+        db_conn.close()
+        time.sleep(0.5)
+
 
 
 if __name__ == '__main__':

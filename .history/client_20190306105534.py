@@ -385,14 +385,14 @@ def GUI():
                 tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
 
     def start():
-        # length = len(threading.enumerate())  #枚举返回个列表
+        length = len(threading.enumerate())  #枚举返回个列表
         thread2_send = threading.Thread(target=check)
         thread2_send.start()
         
-        # print(length)
-    
-
-    def pause():
+        print(length)
+        
+    def start():
+        length = len(threading.enumerate())  #枚举返回个列表
         thread2_send = threading.Thread(target=check)
         thread2_send.start()
         

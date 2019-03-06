@@ -390,7 +390,18 @@ def GUI():
         thread2_send.start()
         
         # print(length)
-    
+
+def __init__(self, thread_num=0, timeout=1.0):
+        super(TestThread, self).__init__()
+        self.thread_num = thread_num
+
+        self.stopped = False
+        self.timeout = timeout
+
+作者：钟宇腾
+链接：https://www.zhihu.com/question/23481401/answer/24713935
+来源：知乎
+著作权归作者所有 。 商业转载请联系作者获得授权 ， 非商业转载请注明出处 。
 
     def pause():
         thread2_send = threading.Thread(target=check)

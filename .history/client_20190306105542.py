@@ -390,7 +390,6 @@ def GUI():
         thread2_send.start()
         
         # print(length)
-    
 
     def pause():
         thread2_send = threading.Thread(target=check)

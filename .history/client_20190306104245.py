@@ -374,38 +374,23 @@ def GUI():
 
         # print(get_gpggsMessage2(lati=final_lati,lati_hemi=final_latiHemi,longi=final_longi,longi_hemi=final_longiHemi,alti=final_alti))
 
-    def check():
+    def start():
         while True:
             try:
                 final_lati, final_latiHemi, final_longi, final_longiHemi, final_alti = check_input()
-                send_gpggsMessage2(get_gpggsMessage2(lati=final_lati, lati_hemi=final_latiHemi,
-                                                     longi=final_longi, longi_hemi=final_longiHemi, alti=final_alti))
-                time.sleep(0.5)
+                 thread2_send = threading.Thread(target=send_gpggsMessage2(get_gpggsMessage2(lati=final_lati, lati_hemi=final_latiHemi,
+                                                     longi=final_longi, longi_hemi=final_longiHemi, alti=final_alti)))
+        
+                thread2_send.start()
+                # send_gpggsMessage2(# print(get_gpggsMessage2(lati=final_lati, lati_hemi=final_latiHemi,
+                #                                      longi=final_longi, longi_hemi=final_longiHemi, alti=final_alti))
+                
+                # time.sleep(0.5)
             except ConnectionRefusedError:
                 tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
-
-    def start():
-        # length = len(threading.enumerate())  #枚举返回个列表
-        thread2_send = threading.Thread(target=check)
-        thread2_send.start()
-        
-        # print(length)
-    
-
-    def pause():
-        thread2_send = threading.Thread(target=check)
-        thread2_send.start()
-        
-        print(length)
-    
-    # def check_thread():
-
     # 开始按钮
-    tk.Button(text='发射', width=20, height=2,
+    tk.Button(text='发射', width=40, height=2,
               command=start).place(x=200, y=300)
-
-    tk.Button(text='暂停', width=20, height=2,
-              command=pause).place(x=400, y=300)
     window.mainloop()
 
 

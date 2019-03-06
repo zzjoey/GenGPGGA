@@ -390,7 +390,32 @@ def GUI():
         thread2_send.start()
         
         # print(length)
-    
+    class TestThread(threading.Thread):
+
+        def __init__(self, thread_num=0, timeout=1.0):
+                super(TestThread, self).__init__()
+                self.thread_num = thread_num
+
+                self.stopped = False
+                self.timeout = timeout
+        def run(self):
+                def target_func():
+                    inp = raw_input("Thread %d: " % self.thread_num)
+                    print('Thread %s input %s' % (self.thread_num, inp))
+                subthread = threading.Thread(target=target_func, args=())
+                subthread.setDaemon(True)
+                subthread.start()
+
+                while not self.stopped:
+                    subthread.join(self.timeout)
+
+                print('Thread stopped')
+
+        def stop(self):
+            self.stopped = True
+
+        def isStopped(self):
+            return self.stopped
 
     def pause():
         thread2_send = threading.Thread(target=check)

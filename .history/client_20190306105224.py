@@ -385,14 +385,8 @@ def GUI():
                 tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
 
     def start():
-        # length = len(threading.enumerate())  #枚举返回个列表
-        thread2_send = threading.Thread(target=check)
-        thread2_send.start()
-        
-        # print(length)
-    
-
-    def pause():
+        length = len(threading.enumerate())  #枚举返回个列表
+        if length
         thread2_send = threading.Thread(target=check)
         thread2_send.start()
         
@@ -401,11 +395,8 @@ def GUI():
     # def check_thread():
 
     # 开始按钮
-    tk.Button(text='发射', width=20, height=2,
+    tk.Button(text='发射', width=40, height=2,
               command=start).place(x=200, y=300)
-
-    tk.Button(text='暂停', width=20, height=2,
-              command=pause).place(x=400, y=300)
     window.mainloop()
 
 

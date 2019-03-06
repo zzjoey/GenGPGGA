@@ -390,7 +390,13 @@ def GUI():
         thread2_send.start()
         
         # print(length)
-    
+
+def __init__(self, thread_num=0, timeout=1.0):
+        super(TestThread, self).__init__()
+        self.thread_num = thread_num
+
+        self.stopped = False
+        self.timeout = timeout
 
     def pause():
         thread2_send = threading.Thread(target=check)
