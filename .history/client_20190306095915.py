@@ -332,44 +332,61 @@ def GUI():
             v5_alti_P_input = int(v5_alti_P.get())
             v6_alti_N_input = int(v6_alti_N.get())
         except ValueError:
-            v5_alti_P_input = -9999
-            v6_alti_N_input = 99999
+            v3_longiW_input_int = -9999
+            v4_longiE_input_int = 99999
 
         if ((v5_alti_P.get() == '') & (v6_alti_N.get() == '')):
-            # v3_longiW_input_int = -9999
-            # v4_longiE_input_int = 99999
-            final_alti = get_alti(-9999,99999)
+            v3_longiW_input_int = -9999
+            v4_longiE_input_int = 99999
 
         elif ((v5_alti_P.get() != '') & (v6_alti_N.get() == '')):
-            if int(v5_alti_P.get()) not in range(-10000, 1):
+            if int(v5_alti_P.get()) not in range(-10000, 0):
                 tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
             else:
-                # try:
-                v5_alti_P_int = int(v5_alti_P.get())
-                final_alti = get_alti(v5_alti_P_int, 99999)
-
+                try:
+                    v5_alti_P_int = int(v5_alti_P)
+                    final_alti = get_alti(v5_alti_P_int, 99999)
+                    
         elif ((v5_alti_P.get() == '') & (v6_alti_N.get() != '')):
-            if int(v6_alti_N.get()) not in range(-1, 100000):
+            if int(v6_alti_N.get()) not in range(0, 100000):
                 tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
             else:
-                # try:
-                v6_alti_N_int = int(v6_alti_N.get())
-                final_alti = get_alti(-9999, v6_alti_N_int)
+                try:
+                    v6_alti_N_int = int(v6_alti_N)
+                    final_alti = get_alti(-9999,v6_alti_N_int)
 
         else:
-            v5_alti_P_int = int(v5_alti_P.get())
-            v6_alti_N_int = int(v6_alti_N.get())
+            v5_alti_P_int = int(v5_alti_P)
+            v6_alti_N_int = int(v6_alti_N)
 
-            if v5_alti_P_int == 0 and v6_alti_N_int == 0:
-                tkBox.showwarning("Altitude Error", "高度错误，请重新输入")
-            elif int(v5_alti_P.get()) not in range(-9999, 0):
+            if int(v5_alti_P.get()) not in range(-10000, 0):
                 tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
             elif int(v6_alti_N.get()) not in range(0, 100000):
                 tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
             else:
-                final_alti = get_alti(v5_alti_P_int, v6_alti_N_int)
+                try:
+                    temp_longi1 = random.randrange(0, v3_longiW_input_int)
+                    temp_longi2 = random.randrange(0, v4_longiE_input_int)
+                except ValueError:
+                    tkBox.showwarning("Value Error", "值错误！请重新输入")
+                temp_longiHemi1 = 'W'
+                temp_longiHemi2 = 'E'
+                temp_longis = [temp_longi1, temp_longi2]
 
-        print(final_alti)
+                final_longi = random.choice(temp_longis)
+                if (final_longi == temp_longi1):
+                    final_longiHemi = 'W'
+                else:
+                    final_longiHemi = 'E'
+
+        if (v1_latiN_input_int not in range(0, 91)
+            or v2_latiS_input_int not in range(0, 91)
+            or v3_longiW_input_int not in range(0, 181)
+                or v4_longiE_input_int not in range(0, 181)):
+            tkBox.showwarning("Value Error", "输入值错误！请检查：经度范围0~180，纬度范围0~90")
+        else:
+            print(str(final_lati)+final_latiHemi)
+            print(str(final_longi) + final_longiHemi)
 
     # 开始按钮
     tk.Button(text='发射', width=40, height=2,

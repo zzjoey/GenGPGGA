@@ -362,7 +362,7 @@ def GUI():
 
             if v5_alti_P_int == 0 and v6_alti_N_int == 0:
                 tkBox.showwarning("Altitude Error", "高度错误，请重新输入")
-            elif int(v5_alti_P.get()) not in range(-9999, 0):
+            elif int(v5_alti_P.get()) not in range(-10000, 0):
                 tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
             elif int(v6_alti_N.get()) not in range(0, 100000):
                 tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")

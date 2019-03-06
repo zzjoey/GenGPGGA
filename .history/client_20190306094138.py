@@ -120,9 +120,9 @@ def get_HDOP():
     return hdop_float
 
 
-def get_alti(low_alti, high_alti):
+def get_alti():
     # 海拔高度（-9999.9-99999.9）
-    alti_int = random.randrange(low_alti, high_alti)
+    alti_int = random.randrange(-99999, 999999)
     alti_float = str(float(alti_int / 10))
     return alti_float
 
@@ -145,9 +145,10 @@ def get_diffStationID(diff):
         return stationID
 
 
+
+
 def get_localTime():
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-
 
 def get_threadSend():
     thread2_Send = threading.Thread(target=send_gpggsMessage())
@@ -321,61 +322,8 @@ def GUI():
                 or v4_longiE_input_int not in range(0, 181)):
             tkBox.showwarning("Value Error", "输入值错误！请检查：经度范围0~180，纬度范围0~90")
         else:
-            print(str(final_lati)+final_latiHemi)
-            print(str(final_longi) + final_longiHemi)
-
-        # 检查海拔高度
-        v5_alti_P_input = v5_alti_P.get()
-        v6_alti_N_input = v6_alti_N.get()
-
-        try:
-            v5_alti_P_input = int(v5_alti_P.get())
-            v6_alti_N_input = int(v6_alti_N.get())
-        except ValueError:
-            v5_alti_P_input = -9999
-            v6_alti_N_input = 99999
-
-        if ((v5_alti_P.get() == '') & (v6_alti_N.get() == '')):
-            # v3_longiW_input_int = -9999
-            # v4_longiE_input_int = 99999
-            final_alti = get_alti(-9999,99999)
-
-        elif ((v5_alti_P.get() != '') & (v6_alti_N.get() == '')):
-            if int(v5_alti_P.get()) not in range(-10000, 1):
-                tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
-            else:
-                # try:
-                v5_alti_P_int = int(v5_alti_P.get())
-                final_alti = get_alti(v5_alti_P_int, 99999)
-
-        elif ((v5_alti_P.get() == '') & (v6_alti_N.get() != '')):
-            if int(v6_alti_N.get()) not in range(-1, 100000):
-                tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
-            else:
-                # try:
-                v6_alti_N_int = int(v6_alti_N.get())
-                final_alti = get_alti(-9999, v6_alti_N_int)
-
-        else:
-            v5_alti_P_int = int(v5_alti_P.get())
-            v6_alti_N_int = int(v6_alti_N.get())
-
-            if v5_alti_P_int == 0 and v6_alti_N_int == 0:
-                tkBox.showwarning("Altitude Error", "高度错误，请重新输入")
-            elif int(v5_alti_P.get()) not in range(-9999, 0):
-                tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
-            elif int(v6_alti_N.get()) not in range(0, 100000):
-                tkBox.showwarning("Altitude Error", "高度范围 -9999 ~ 99999")
-            else:
-                final_alti = get_alti(v5_alti_P_int, v6_alti_N_int)
-
-        print(final_alti)
-
-    # 开始按钮
-    tk.Button(text='发射', width=40, height=2,
-              command=check_input).place(x=200, y=300)
-
-    window.mainloop()
+            print(final_lati)
+            
 
 
 def get_gpggsMessage():
@@ -385,14 +333,14 @@ def get_gpggsMessage():
     comma = ','
 
     utc_time = get_UTC()
-    lati = get_lati(90)
+    lati = get_lati()
     lati_hemi = get_latiHemi()
-    longi = get_longi(180)
+    longi = get_longi()
     longi_hemi = get_longiHemi()
     gps_status = get_gpsStatus()
     sate_num = get_sateNum()
     hdop = get_HDOP()
-    alti = get_alti(-9999, 99999)
+    alti = get_alti()
     # 地球椭球面相对大地水准面的高度
     alti_diff = str(float(float(alti)+1))
     diff_time = get_diffTime(gps_status)
@@ -404,38 +352,10 @@ def get_gpggsMessage():
         "M"+comma+diff_time+comma+diff_stationID+"*5A"+"\r"+"\n"
 
     return gpggs_message
-
-
-def get_gpggsMessage2(lati, lati_hemi, longi, longi_hemi, low_alti, high_alti):
-    # 拼接GPGGA信息
-    # 校验和随机生成
-    head = "$GPGGA"
-    comma = ','
-
-    utc_time = get_UTC()
-    lati = str(lati)
-    lati_hemi = str(lati_hemi)
-    longi = str(longi)
-    longi_hemi = str(longi_hemi)
-    gps_status = get_gpsStatus()
-    sate_num = get_sateNum()
-    hdop = get_HDOP()
-    alti = get_alti(low_alti, high_alti)
-    # 地球椭球面相对大地水准面的高度
-    alti_diff = str(float(float(alti)+1))
-    diff_time = get_diffTime(gps_status)
-    diff_stationID = get_diffStationID(gps_status)
-    # check_sum = str(hex(random.randrange(0, 255))[2:])
-
-    gpggs_message = head+comma+utc_time+comma+lati+comma+lati_hemi+comma+longi+comma+longi_hemi+comma+gps_status+comma + \
-        sate_num+comma+hdop+comma+alti+comma+"M"+comma+alti_diff+comma + \
-        "M"+comma+diff_time+comma+diff_stationID+"*5A"+"\r"+"\n"
-
-    return gpggs_message
-
 
 def send_gpggsMessage():
     # 发送GPS信号并存入SQLite3
+
     while True:
         db_conn = sqlite3.connect('gpsDB.db')
         db_c = db_conn.cursor()
@@ -461,32 +381,11 @@ def send_gpggsMessage():
         db_conn.close()
         time.sleep(0.5)
 
+    # 开始按钮
+    tk.Button(text='发射', width=40, height=2,
+              command=check_input).place(x=200, y=300)
 
-def send_gpggsMessage2(lati, lati_hemi, longi, longi_hemi):
-    # 发送GPS信号并存入SQLite3
-    while True:
-        db_conn = sqlite3.connect('gpsDB.db')
-        db_c = db_conn.cursor()
-
-        local_time = get_localTime()
-        gpggs_message = get_gpggsMessage()
-
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(('127.0.0.1', 8008))
-
-        send_message = gpggs_message.encode(encoding='utf-8')
-        client.send(send_message)
-        # print(send_message)
-        rec_data = client.recv(512)
-        # print(data)
-        client.close()
-
-        db_c.execute(
-            "INSERT INTO GPS (ID,GPS,time) VALUES (NULL,'%s','%s')" % (gpggs_message, local_time))
-        db_conn.commit()
-        # print("Insert into SQLite3 Success")
-        db_conn.close()
-        time.sleep(0.5)
+    window.mainloop()
 
 
 if __name__ == '__main__':
