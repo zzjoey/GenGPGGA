@@ -80,17 +80,6 @@ def get_longi(input_longi):
     return full_longi
 
 
-def get_longi2(input_longi):
-    # 获取经度，ddmm.mmmm（度分）格式
-    # 0-180
-    # 分0-60.0-9999
-    longi = str(random.randrange(input_longi, 180)).zfill(3)
-    longi_min = str(random.randrange(0, 60)).zfill(2)
-    longi_millimin = str(random.randrange(0, 9999)).zfill(4)
-    full_longi = longi + longi_min + '.' + longi_millimin
-    return full_longi
-
-
 def get_longiHemi():
     # 获取经度半球
     # 西/东 W/E
@@ -266,27 +255,16 @@ def GUI():
             if int(v1_latiN_input) not in range(0, 91):
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
             else:
-                try:
-                    v1_latiN_input_int = int(v1_latiN_input)
-                    final_lati = get_lati(v1_latiN_input_int)
-                except ValueError:
-                    final_latiHemi = 'S'
-                    final_lati = get_lati(90)
-                else:
-                    final_latiHemi = 'N'
-
+                v1_latiN_input_int = int(v1_latiN_input)
+                final_lati = get_lati(v1_latiN_input_int)
+                final_latiHemi = 'N'
         elif((v1_lati_N.get() == '') & (v2_lati_S.get() != '')):
             if v2_latiS_input_int not in range(0, 91):
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
             else:
-                try:
-                    v2_latiS_input_int = int(v2_latiS_input)
-                    final_lati = get_lati(v2_latiS_input_int)
-                except ValueError:
-                    final_latiHemi = 'N'
-                    final_lati = get_lati(90)
-                else:
-                    final_latiHemi = 'S'
+                v2_latiS_input_int = int(v2_latiS_input)
+                final_lati = get_lati(v2_latiS_input_int)
+                final_latiHemi = 'S'
 
         else:
             if v1_latiN_input_int not in range(0, 91):
@@ -294,12 +272,9 @@ def GUI():
             elif v2_latiS_input_int not in range(0, 91):
                 tkBox.showwarning("Latitude Error", "纬度范围为 0 ~ 90")
             else:
-                try:
-                    temp_lati1 = random.randrange(0, v1_latiN_input_int)
-                    temp_lati2 = random.randrange(0, v2_latiS_input_int)
-                except ValueError:
-                    tkBox.showwarning("Value Error", "值错误！请重新输入")
+                temp_lati1 = random.randrange(0, v1_latiN_input_int)
                 temp_latiHemi1 = 'N'
+                temp_lati2 = random.randrange(0, v2_latiS_input_int)
                 temp_latiHemi2 = 'S'
                 temp_latis = [temp_lati1, temp_lati2]
                 final_lati = random.choice(temp_latis)
@@ -326,30 +301,17 @@ def GUI():
             if int(v3_longiW_input) not in range(0, 181):
                 tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
             else:
-                try:
-                    v3_longiW_input_int = int(v3_longiW_input)
-                    final_longi = get_longi(v3_longiW_input_int)
-
-                except ValueError:
-                    final_longiHemi = 'E'
-                    final_longi = get_longi2(0)
-                else:
-                    final_longiHemi = 'W'
-
+                v3_longiW_input_int = int(v3_longiW_input)
+                final_longi = get_longi(v3_longiW_input_int)
+                final_longiHemi = 'N'
         elif ((v3_longi_W.get() == '') & (v4_longi_E.get() != '')):
             # print(v4_longiE_input_int)
             if int(v4_longi_E.get()) not in range(0, 181):
                 tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
             else:
-                try:
-                    v4_longiE_input_int = int(v4_longi_E.get())
-                    final_longi = get_longi(v4_longiE_input_int)
-
-                except ValueError:
-                    final_longiHemi = 'W'
-                    final_longi = get_longi(180)
-                else:
-                    final_longiHemi = 'E'
+                v4_longiE_input_int = int(v4_longi_E.get())
+                final_longi = get_longi(v4_longiE_input_int)
+                final_longiHemi = 'N'
 
         else:
             if v3_longiW_input_int not in range(0, 181):
@@ -357,29 +319,21 @@ def GUI():
             elif v4_longiE_input_int not in range(0, 181):
                 tkBox.showwarning("Longitude Error", "经度范围为 0 ~ 180")
             else:
-                try:
-                    temp_longi1 = random.randrange(0, v3_longiW_input_int)
-                    temp_longi2 = random.randrange(0, v4_longiE_input_int)
-                except ValueError:
-                    tkBox.showwarning("Value Error", "值错误！请重新输入")
-                temp_longiHemi1 = 'W'
-                temp_longiHemi2 = 'E'
+                temp_longi1 = random.randrange(0, v3_longiW_input_int)
+                temp_longiHemi1 = 'N'
+                temp_longi2 = random.randrange(0, v4_longiE_input_int)
+                temp_longiHemi2 = 'S'
                 temp_longis = [temp_longi1, temp_longi2]
-
                 final_longi = random.choice(temp_longis)
                 if (final_longi == temp_longi1):
-                    final_longiHemi = 'W'
+                    final_longiHemi = 'N'
                 else:
-                    final_longiHemi = 'E'
-
+                    final_longiHemi = 'S'
         if (v1_latiN_input_int not in range(0, 91)
-            or v2_latiS_input_int not in range(0, 91)
-            or v3_longiW_input_int not in range(0, 181)
-                or v4_longiE_input_int not in range(0, 181)):
-            tkBox.showwarning("Value Error", "输入值错误！请检查：经度范围0~180，纬度范围0~90")
-        else:
-            print(str(final_longi)+final_longiHemi)
-            print(str(final_longi) + final_longiHemi)
+        or v2_latiS_input_int not in range(0, 91)
+        or v3_longiW_input_int not in range(0, 181)
+        or v4_longiE_input_int not in range(0,181)):
+            tkBox.showwarning("Value Error", "请检查输入值，经度范围0~90，纬度范围")
 
     # 开始按钮
     tk.Button(text='发射', width=40, height=2,

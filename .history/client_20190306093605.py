@@ -331,10 +331,10 @@ def GUI():
                     final_longi = get_longi(v3_longiW_input_int)
 
                 except ValueError:
-                    final_longiHemi = 'E'
-                    final_longi = get_longi2(0)
+                    final_latiHemi = 'E'
+                    final_lati = get_longi(0)
                 else:
-                    final_longiHemi = 'W'
+                    final_latiHemi = 'W'
 
         elif ((v3_longi_W.get() == '') & (v4_longi_E.get() != '')):
             # print(v4_longiE_input_int)
@@ -346,10 +346,10 @@ def GUI():
                     final_longi = get_longi(v4_longiE_input_int)
 
                 except ValueError:
-                    final_longiHemi = 'W'
-                    final_longi = get_longi(180)
+                    final_llongiHemi = 'W'
+                    final_llongi = get_llongi(180)
                 else:
-                    final_longiHemi = 'E'
+                    final_llongiHemi = 'E'
 
         else:
             if v3_longiW_input_int not in range(0, 181):
@@ -363,6 +363,7 @@ def GUI():
                 except ValueError:
                     tkBox.showwarning("Value Error", "值错误！请重新输入")
                 temp_longiHemi1 = 'W'
+
                 temp_longiHemi2 = 'E'
                 temp_longis = [temp_longi1, temp_longi2]
 

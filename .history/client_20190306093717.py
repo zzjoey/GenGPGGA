@@ -332,7 +332,7 @@ def GUI():
 
                 except ValueError:
                     final_longiHemi = 'E'
-                    final_longi = get_longi2(0)
+                    final_longi = get_longi2()
                 else:
                     final_longiHemi = 'W'
 
@@ -363,6 +363,7 @@ def GUI():
                 except ValueError:
                     tkBox.showwarning("Value Error", "值错误！请重新输入")
                 temp_longiHemi1 = 'W'
+
                 temp_longiHemi2 = 'E'
                 temp_longis = [temp_longi1, temp_longi2]
 

@@ -363,6 +363,7 @@ def GUI():
                 except ValueError:
                     tkBox.showwarning("Value Error", "值错误！请重新输入")
                 temp_longiHemi1 = 'W'
+
                 temp_longiHemi2 = 'E'
                 temp_longis = [temp_longi1, temp_longi2]
 
