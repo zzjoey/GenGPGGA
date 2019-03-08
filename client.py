@@ -13,6 +13,7 @@ import random
 import socket
 import sqlite3
 import threading
+import sys
 
 import tkinter as tk
 import tkinter.font as tkFont
@@ -147,7 +148,6 @@ def get_diffStationID(diff):
 
 def get_localTime():
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-
 
 def get_threadSend():
     thread2_Send = threading.Thread(target=send_gpggsMessage())
@@ -383,25 +383,24 @@ def GUI():
                 time.sleep(0.5)
             except ConnectionRefusedError:
                 tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
+                time.sleep(2)
+                exit()
             except RuntimeError:
-                exit(0)
+                exit()
 
     def start():
         # length = len(threading.enumerate())  #枚举返回个列表
         thread2_send = threading.Thread(target=check)
+        print("创建新线程并启动，线程id：")
+        print(thread2_send)
         thread2_send.start()
-
-    
 
     def stop():
         window.destroy()
-        exit(0)
-        
-        
-
+        exit()
 
     # 开始按钮
-    tk.Button(text='发射', width=20, height=2,
+    tk.Button(text='创建并发射', width=20, height=2,
               command=start).place(x=200, y=300)
 
     tk.Button(text='停止', width=20, height=2,
@@ -480,9 +479,9 @@ def send_gpggsMessage():
 
         send_message = gpggs_message.encode(encoding='utf-8')
         client.send(send_message)
-        # print(send_message)
+
         rec_data = client.recv(512)
-        # print(data)
+        # print(rec_data)
         client.close()
 
         db_c.execute(
@@ -490,7 +489,7 @@ def send_gpggsMessage():
         db_conn.commit()
         # print("Insert into SQLite3 Success")
         db_conn.close()
-        time.sleep(0.5)
+        # time.sleep(0.5)
 
 
 def send_gpggsMessage2(in_gpggs_message):
@@ -509,7 +508,7 @@ def send_gpggsMessage2(in_gpggs_message):
     client.send(send_message)
     # print(send_message)
     rec_data = client.recv(512)
-    # print(data)
+    # print(rec_data)
     client.close()
 
     db_c.execute(
