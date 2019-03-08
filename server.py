@@ -149,7 +149,7 @@ def store(rec_time, lati, longti, origin):
         VALUES (NULL,'%s','%s','%s','%s','%s','%s')" % (rec_time, longti, lati, velocity, local_time, origin))
     db_conn.commit()
     db_conn.close()
-    time.sleep(1)
+    # time.sleep(1)
 
 
 class MyServer(socketserver.BaseRequestHandler):
@@ -163,7 +163,7 @@ class MyServer(socketserver.BaseRequestHandler):
         rec_data = conn.recv(1024)
         rec_time, rec_lati, rec_longi = parse(str(rec_data))
         print(rec_data)
-        print(str(rec_time)+","+ str(rec_lati)+","+ str(rec_longi))
+        print(str(rec_time)+"," + str(rec_lati)+"," + str(rec_longi))
         decode_data = bytes.decode(rec_data)
         store(rec_time, rec_lati, rec_longi, decode_data)
 
@@ -176,7 +176,6 @@ class MyServer(socketserver.BaseRequestHandler):
         i += 1
 
         conn.send('received'.encode(encoding='utf-8'))
-        # print('stored,linked,received')
 
 
 def search():
