@@ -149,7 +149,7 @@ def store(rec_time, lati, longti, origin):
         VALUES (NULL,'%s','%s','%s','%s','%s','%s')" % (rec_time, longti, lati, velocity, local_time, origin))
     db_conn.commit()
     db_conn.close()
-    time.sleep(0.5)
+    time.sleep(1)
 
 
 class MyServer(socketserver.BaseRequestHandler):
@@ -162,6 +162,8 @@ class MyServer(socketserver.BaseRequestHandler):
         conn = self.request
         rec_data = conn.recv(1024)
         rec_time, rec_lati, rec_longi = parse(str(rec_data))
+        print(rec_data)
+        print(str(rec_time)+","+ str(rec_lati)+","+ str(rec_longi))
         decode_data = bytes.decode(rec_data)
         store(rec_time, rec_lati, rec_longi, decode_data)
 
@@ -208,26 +210,24 @@ def search():
     textarea.config(state='disable')  # 关闭编辑text
 
 
-
-
-
 def GUI():
     window = tk.Tk()
     window.title("GPS Fake Receiver")
     window.geometry('800x800')
 
-    label1 = tk.Label(window, text="GPS模拟接收器（假的！）",
+    label1 = tk.Label(window, text="GPS模拟接收器",
                       font=tkFont.Font(size=20, weight=tkFont.BOLD))
     label1.pack()
 
-
     s1 = socketserver.ThreadingTCPServer(("127.0.0.1", 8008), MyServer)
 
-    tk.Button(text='启动', width=20, height=2, command=lambda:start(s1)).place(x=100, y=50)
+    tk.Button(text='启动', width=20, height=2,
+              command=lambda: start(s1)).place(x=100, y=50)
 
     tk.Button(text='查询', width=20, height=2, command=search).place(x=300, y=50)
 
-    tk.Button(text='停止', width=20, height=2, command=lambda:stop(s1)).place(x=500, y=50)
+    tk.Button(text='停止', width=20, height=2,
+              command=lambda: stop(s1)).place(x=500, y=50)
 
     window.mainloop()
 
@@ -238,13 +238,14 @@ def listen(server):
 
 
 def start(server):
-    thread2_start = threading.Thread(target=listen,args=(server,))
+    thread2_start = threading.Thread(target=listen, args=(server,))
     thread2_start.start()
+
 
 def stop(server):
     server.shutdown()
     exit()
-    
+
 
 if __name__ == '__main__':
     thread1_GUI = threading.Thread(target=GUI())

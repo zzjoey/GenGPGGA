@@ -166,7 +166,7 @@ def GUI():
     v5_alti_P = tk.StringVar()
     v6_alti_N = tk.StringVar()
 
-    label1 = tk.Label(window, text="GPS模拟发生器（假的！）",
+    label1 = tk.Label(window, text="GPS模拟发射器",
                       font=tkFont.Font(size=20, weight=tkFont.BOLD))
     label1.pack()
 
@@ -380,6 +380,7 @@ def GUI():
                 final_lati, final_latiHemi, final_longi, final_longiHemi, final_alti = check_input()
                 send_gpggsMessage2(get_gpggsMessage2(lati=final_lati, lati_hemi=final_latiHemi,
                                                      longi=final_longi, longi_hemi=final_longiHemi, alti=final_alti))
+                
                 time.sleep(0.5)
             except ConnectionRefusedError:
                 tkBox.showwarning("Connection Error", "无法连接，请检查网络或服务端")
@@ -481,15 +482,14 @@ def send_gpggsMessage():
         client.send(send_message)
 
         rec_data = client.recv(512)
-        # print(rec_data)
+        
         client.close()
 
-        db_c.execute(
-            "INSERT INTO GPS (ID,GPS,time) VALUES (NULL,'%s','%s')" % (gpggs_message, local_time))
+        db_c.execute("INSERT INTO GPS (ID,GPS,time) VALUES (NULL,'%s','%s')" % (gpggs_message, local_time))
         db_conn.commit()
         # print("Insert into SQLite3 Success")
         db_conn.close()
-        # time.sleep(0.5)
+        time.sleep(0.5)
 
 
 def send_gpggsMessage2(in_gpggs_message):
@@ -506,8 +506,9 @@ def send_gpggsMessage2(in_gpggs_message):
 
     send_message = gpggs_message.encode(encoding='utf-8')
     client.send(send_message)
-    # print(send_message)
+    print(send_message)
     rec_data = client.recv(512)
+
     # print(rec_data)
     client.close()
 
