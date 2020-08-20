@@ -1,8 +1,89 @@
 # Fake_GPS
 
-[English Version](#english)
+**[中文版](#Chinese)**
 
-## Python GPGGA GPS 信号模拟 & 接收 & 存储 (单链表&SQLite3)
+## <span id="English">Python Simulator of GPGGA Message Client & Server</span>
+
+### 1. [Client](https://github.com/joey66666/Fake_GPS/blob/master/client.py)
+
+1. Create multithread, generate GPGGA GPS signal based on current UTC time and random location.
+2. Send to Server & Insert into SQLite3 (gpsDB)
+
+>Format：\$GPGGA,<1>,<2>,<3>,<4>,<5>,<6>,<7>,<8>,<9>,M,<10>,M,<11>,<12>\*hh\<CR>\<LF>
+>
+>Example：\$GPGGA,115542.000,3155.3446,N,11852.4283,E,1,03,4.4,32.6,M,5.4,M,,0000*5A
+>
+><1> UTC time, hhmmss
+>
+><2> Laittude, ddmm.mmmm
+>
+><3> Latitude Hemisphere, N or S
+>
+><4> Longitude, dddmm.mmmm
+>
+><5> Longitude Hemisphere, E or W
+>
+><6> GPS Status：0=Not positioned, 1=Non-differential positioning, 2=Differential positioning, 6=Positioning
+>
+><7>Satellite number, 00-12
+>
+><8> HDOP, 0.5-99.9
+>
+><9>Altitude, -9999.9-99999.9
+>
+><10> Undulation - the relationship between the geoid and the WGS84 ellipsoid
+>
+><11> Differential time
+>
+><12> Differential base station ID
+
+[GPGGA format definition](https://docs.novatel.com/oem7/Content/Logs/GPGGA.htm)
+
+### 2. [Server](https://github.com/joey66666/Fake_GPS/blob/master/server.py)
+
+1. Receive GPGGA signal and parse, extract latitude, longitude, UTC time
+2. Append to singlelinklist & Insert into SQLite3 (gpsDB2)
+3. Select * from DB & display on GUI
+
+### 3. Database
+
+##### gpsDB - Client sent signal 
+
+| Name | Type    | Description        |
+| ---- | ------- | ------------------ |
+| ID   | integer | Auto Increment Key |
+| GPS  | TEXT    | sent GPGGA signal  |
+| time | TEXT    | sent local time    |
+
+##### gpsDB2 - Server received signal 
+
+| Name        | Type    | Description                    |
+| ----------- | ------- | ------------------------------ |
+| ID          | integer | Auto Increment Key             |
+| rec_utcTime | TEXT    | UTC time from received signal  |
+| longitude   | TEXT    | longitude from received signal |
+| latitude    | TEXT    | latitude from received signal  |
+| velocity    | TEXT    | random.randrange(0,100)        |
+| time        | TEXT    | localtime                      |
+| origin      | TEXT    | received origin signal         |
+
+Dependencies：
+
+- sqlite3
+- socketserver
+- threading
+- tkinter
+
+Screenshots:
+
+![Client](Client.png)
+
+![Server](Server.png)
+
+---
+
+
+## <span id="Chinese">Python GPGGA GPS 信号模拟 & 接收 & 存储 (单链表&SQLite3)</span>
 
 ### 1. [客户端](https://github.com/joey66666/Fake_GPS/blob/master/client.py)
 
@@ -82,77 +163,3 @@
 服务端:
 
 ![Server](Server.png)
-
-## <span id="english">Python Simulator of GPGGA Message Client & Server</span>
-
-### 1. [Client](https://github.com/joey66666/Fake_GPS/blob/master/client.py)
-
-1. Create multithread, generate GPGGA GPS signal based on current UTC time and random location.
-2. Send to Server & Insert into SQLite3 (gpsDB)
-
->Format：\$GPGGA,<1>,<2>,<3>,<4>,<5>,<6>,<7>,<8>,<9>,M,<10>,M,<11>,<12>\*hh\<CR>\<LF>
->
->Example：\$GPGGA,115542.000,3155.3446,N,11852.4283,E,1,03,4.4,32.6,M,5.4,M,,0000*5A
->
-><1> UTC time, hhmmss
->
-><2> Laittude, ddmm.mmmm
->
-><3> Latitude Hemisphere, N or S
->
-><4> Longitude, dddmm.mmmm
->
-><5> Longitude Hemisphere, E or W
->
-><6> GPS Status：0=Not positioned, 1=Non-differential positioning, 2=Differential positioning, 6=Positioning
->
-><7>Satellite number, 00-12
->
-><8> HDOP, 0.5-99.9
->
-><9>Altitude, -9999.9-99999.9
->
-><10> Undulation - the relationship between the geoid and the WGS84 ellipsoid
->
-><11> Differential time
->
-><12> Differential base station ID
-
-[GPGGA format definition](https://docs.novatel.com/oem7/Content/Logs/GPGGA.htm)
-
-### 2. [Server](https://github.com/joey66666/Fake_GPS/blob/master/server.py)
-
-1. Receive GPGGA signal and parse, extract latitude, longitude, UTC time
-2. Append to singlelinklist & Insert into SQLite3 (gpsDB2)
-3. Select * from DB & display on GUI
-
-### 3. Database
-
-##### gpsDB - Client sent signal 
-
-| Name | Type    | Description        |
-| ---- | ------- | ------------------ |
-| ID   | integer | Auto Increment Key |
-| GPS  | TEXT    | sent GPGGA signal  |
-| time | TEXT    | sent local time    |
-
-##### gpsDB2 - Server received signal 
-
-| Name        | Type    | Description                    |
-| ----------- | ------- | ------------------------------ |
-| ID          | integer | Auto Increment Key             |
-| rec_utcTime | TEXT    | UTC time from received signal  |
-| longitude   | TEXT    | longitude from received signal |
-| latitude    | TEXT    | latitude from received signal  |
-| velocity    | TEXT    | random.randrange(0,100)        |
-| time        | TEXT    | localtime                      |
-| origin      | TEXT    | received origin signal         |
-
-Dependencies：
-
-- sqlite3
-- socketserver
-- threading
-- tkinter
-
-
