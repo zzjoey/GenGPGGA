@@ -1,4 +1,4 @@
-# Fake_GPS
+# GPGGA Message Generator
 
 **[中文版](#Chinese)**
 
